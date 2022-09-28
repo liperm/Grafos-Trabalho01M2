@@ -107,10 +107,3 @@ class Grafo:
         nx.draw_networkx_edges(grafo, pos, **arrow_options, edgelist = arestas_dirigidas, arrows = True)
         nx.draw_networkx_edges(grafo, pos, **arrow_options, edgelist = arestas_nao_dirigidas, arrows = False)
         plt.show()
-
-
-
-grafo = Grafo(4)
-grafo.preencher_grafo()
-print(grafo.matriz)
-grafo.printar_grafo()
