@@ -125,14 +125,39 @@ class Grafo:
 
         return False
 
+    def get_n_arestas(self):
+        arestas = []
+        n_arestas = 0
 
+        for i in range(self.n_vertices):
+            for j in range(self.n_vertices):
+                if self.matriz[i, j] == 1 and (not [j, i] in arestas):
+                    arestas.append([i, j])
+                    n_arestas += 1
+        
+        return n_arestas
 
-g = Grafo(4)
-g.matriz = np.matrix([[0, 1, 1, 1],
-                      [0, 0, 0, 0],
-                      [1, 1, 0, 0],
-                      [1, 0, 0, 0]], dtype = int)
+    def is_planar(self):
+        e = self.get_n_arestas()
+
+        if self.n_vertices >= 3:
+            if not self.encontrar_ciclo():
+                if ((2 * self.n_vertices - 4) >= e):
+                    return True, (2 - self.n_vertices + e)
+                return False, -1
+            else:
+                if ((3 * self.n_vertices - 6) >= e):
+                    return True, (2 - self.n_vertices + e)
+                return False, -1
+        else:
+            return True, (2 - self.n_vertices + e)
+
+g = Grafo(5)
+g.matriz = np.matrix([[0, 1, 1, 1, 0],
+                      [1, 0, 0, 0, 1],
+                      [1, 0, 0, 1, 1],
+                      [1, 0, 1, 0, 1],
+                      [0, 1, 1, 1, 0]], dtype = int)
 
 g.printar_grafo()
-
-print(g.encontrar_ciclo())
+print(g.is_planar())
