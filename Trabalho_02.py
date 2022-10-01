@@ -107,3 +107,32 @@ class Grafo:
         nx.draw_networkx_edges(grafo, pos, **arrow_options, edgelist = arestas_dirigidas, arrows = True)
         nx.draw_networkx_edges(grafo, pos, **arrow_options, edgelist = arestas_nao_dirigidas, arrows = False)
         plt.show()
+
+    def encontrar_ciclo(self):
+        #Escolhe-se o vértice de referência (o primeiro nesse caso)(v0)
+        vertice = 0
+        
+        #Percorre todos os vertices em busca de um caminho 3
+        while vertice < self.n_vertices:
+            for i in range(self.n_vertices): #busca o primeiro vértice em que a referência se conecta (v1)
+                if self.matriz[vertice, i] == int(1):
+                    for j in range(self.n_vertices): #busca o vertice em que a adjacencia do primeiro se conecta(v2)
+                        if self.matriz[i, j] == int(1):
+                            if self.matriz[j, vertice] == int(1): #se este segundo vértice (v2) se conectar a referencia(v0), existe um caminho de comprimento 3 (v0 -> v1 -> v2 -> v0)
+                                return True
+            vertice += 1
+
+
+        return False
+
+
+
+g = Grafo(4)
+g.matriz = np.matrix([[0, 1, 1, 1],
+                      [0, 0, 0, 0],
+                      [1, 1, 0, 0],
+                      [1, 0, 0, 0]], dtype = int)
+
+g.printar_grafo()
+
+print(g.encontrar_ciclo())
